@@ -1,8 +1,8 @@
 //Declare creep types
 var creepTypes = {
-    harvester: {body: [global.WORK, global.CARRY, global.MOVE], role: 'harvester'},
-    builder: {body: [global.WORK, global.WORK, global.CARRY, global.MOVE], role: 'builder'},
-    guard: {body: [global.ATTACK, global.ATTACK, global.MOVE, global.MOVE], role: 'guard'}
+    harvester: {body: [WORK, CARRY, MOVE], memory: {role: 'harvester'}},
+    builder: {body: [WORK, WORK, CARRY, MOVE], memory: {role: 'builder'}},
+    guard: {body: [ATTACK, ATTACK, MOVE, MOVE], memory: {role: 'guard'}}
 };
 
 //Basic queues
@@ -17,7 +17,7 @@ module.exports.baseQueue = function ()
 {
     for (var spawn in Game.spawns)
     {
-        spawn = Game.getObjectById(spawn);
+        spawn = Game.spawns[spawn];
 
         if (spawn.memory.active == false)
         {
@@ -50,7 +50,7 @@ module.exports.baseQueue = function ()
                     for (var ii = 0; (pass == -16 && ii < maxAttempts); ii++)
                     {
                         var creepName = spawn.id + creepType + ii;
-                        pass = spawn.createCreep(creepTypes[creepType].body, creepName, creepTypes[creepType].role);
+                        pass = spawn.createCreep(creepTypes[creepType].body, creepName, creepTypes[creepType].memory);
                         if (pass == creepName)
                         {
                             spawn.memory.curChildren[creepType].push(creepName);
@@ -66,4 +66,3 @@ module.exports.baseQueue = function ()
 //spawn.memory.curChildren
 //spawn.memory.desChildren
 //spawn.memory.active
-//
